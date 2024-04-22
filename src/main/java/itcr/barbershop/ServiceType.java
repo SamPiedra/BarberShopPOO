@@ -10,4 +10,5 @@ package itcr.barbershop;
  */
 public class ServiceType {
     
+    
 }
