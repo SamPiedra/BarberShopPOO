@@ -53,6 +53,57 @@ public class AppointmentManager implements Serializable {
         ServiceType.counter = serviceTypesMaxCounter + 1;
     }
     
+    private boolean customerExists(String email) {
+        for (Customer c : customers) {
+            if (c.getEmail().equals(email)) return true;
+        }
+        return false;
+    }
+    
+    private boolean customerExists(int customerId) {
+        for (Customer c : customers) {
+            if (c.getId() == customerId) return true;
+        }
+        return false;
+    }
+    
+    private boolean doesDateClashWithAppointment(LocalDate date, LocalTime time) {
+        for (Appointment a : appointments) {
+            if (a.getDate().equals(date)) {
+                if (a.getTime().equals(time)) return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isDateWithinSchedule(LocalDate date, LocalTime time) {
+        DayOfWeek d = date.getDayOfWeek();
+        DailySchedule scheduleOfDay = schedule.get(d);
+        if ( time.isBefore(scheduleOfDay.getOpeningTime()) ) {
+            return false;
+        }
+        if ( time.isAfter(scheduleOfDay.getClosingTime()) ) {
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean isServiceTypeInUse(int serviceTypeId) {
+        for (Appointment a : appointments) {
+            if (a.getServiceType().getId() == serviceTypeId) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean customerIsInWaitingList(int customerId) {
+        for (Customer c : waitingList) {
+            if (c.getId() == customerId) return true;
+        }
+        return false;
+    }
+    
     private Customer getCustomer(int customerId) throws Exception {
         for (Customer c : customers) {
             if (c.getId() == customerId) return c;
@@ -87,7 +138,10 @@ public class AppointmentManager implements Serializable {
         return instance;
     }
     
-    public int addCustomer(String name, String email, String phone) {
+    public int addCustomer(String name, String email, String phone) throws Exception {
+        if (customerExists(email)) {
+            throw new Exception("Customer is already registered.");
+        }
         Customer c = new Customer(name, email, phone);
         customers.add(c);
         return c.getId();
@@ -100,9 +154,15 @@ public class AppointmentManager implements Serializable {
     
     public void removeCustomer(int customerId) throws Exception {
         for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).getId() == customerId) {
-                customers.remove(i);
-                return;
+            Customer c = customers.get(i);
+            if (c.getId() == customerId) {
+                if (customerIsInWaitingList(customerId)) {
+                    throw new Exception("Customer is in the waiting list and cannot be removed.");
+                }
+                if (c.hasAppointments()) {
+                    throw new Exception("Customer has future appointments and cannot be removed.");
+                }
+                customers.remove(i); return;
             }
         }
         throw new Exception("Customer not found.");
@@ -122,20 +182,37 @@ public class AppointmentManager implements Serializable {
     }
     
     public int createAppointment(LocalDate date, LocalTime time, int customerId, int serviceTypeId) throws Exception {
-        Appointment a = new Appointment(date, time, getServiceType(serviceTypeId), getCustomer(customerId));
+        Customer c = getCustomer(customerId);
+        ServiceType s = getServiceType(serviceTypeId);
+        if (!isDateWithinSchedule(date, time)) {
+            throw new Exception("This date or time is outside of business hours.");
+        }
+        if (doesDateClashWithAppointment(date, time)) {
+            throw new Exception("There is an existing appointment scheduled for this date and time.");
+        }
+        Appointment a = new Appointment(date, time, s, c);
         appointments.add(a);
+        c.addAppointment(a);
         return a.getId();
     }
     
     public void editAppointment(int appointmentId, LocalDate date, LocalTime time, int serviceTypeId) throws Exception {
         Appointment a = getAppointment(appointmentId);
         ServiceType s = getServiceType(serviceTypeId);
+        if (!isDateWithinSchedule(date, time)) {
+            throw new Exception("This date or time is outside of business hours.");
+        }
+        if (doesDateClashWithAppointment(date, time)) {
+            throw new Exception("There is an existing appointment scheduled for this date and time.");
+        }
         a.setDate(date); a.setTime(time); a.setServiceType(s);
     }
     
     public void removeAppointment(int appointmentId) throws Exception {
         for (int i = 0; i < appointments.size(); i++) {
-            if (appointments.get(i).getId() == appointmentId) {
+            Appointment a = appointments.get(i);
+            if (a.getId() == appointmentId) {
+                a.getCustomer().removeAppointment(appointmentId);
                 appointments.remove(i);
                 return;
             }
@@ -206,6 +283,9 @@ public class AppointmentManager implements Serializable {
     public void removeServiceType(int serviceTypeId) throws Exception {
         for (int i = 0; i < serviceTypes.size(); i++) {
             if (serviceTypes.get(i).getId() == serviceTypeId) {
+                if (isServiceTypeInUse(serviceTypeId)) {
+                    throw new Exception("This service type is in an existing appointment and cannot be removed.");
+                }
                 serviceTypes.remove(i);
                 return;
             }
@@ -263,8 +343,8 @@ public class AppointmentManager implements Serializable {
         return result;
     }
     
-    public static AppointmentManager LoadData() throws FileNotFoundException, IOException {
-        FileInputStream file = new FileInputStream("wallrose.bin");
+    public static AppointmentManager LoadData() throws ClassNotFoundException, FileNotFoundException, IOException {
+        FileInputStream file = new FileInputStream("barbershopmanager.bin");
         ObjectInputStream stream = new ObjectInputStream(file);
         AppointmentManager object = (AppointmentManager)stream.readObject();
         stream.close();
@@ -273,8 +353,8 @@ public class AppointmentManager implements Serializable {
         return object;
     }
     
-    public static void SaveData(AppointmentManager object) throws FileNotFoundException, IOException {
-        FileOutputStream file = new FileOutputStream("wallrose.bin");
+    public static void SaveData(AppointmentManager object) throws FileNotFoundException, IOException  {
+        FileOutputStream file = new FileOutputStream("barbershopmanager.bin");
         ObjectOutputStream stream = new ObjectOutputStream(file);
         stream.writeObject(object);
         stream.close();

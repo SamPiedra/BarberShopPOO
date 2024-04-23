@@ -5,6 +5,7 @@
 package itcr.barbershop;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  *
@@ -13,10 +14,11 @@ import java.io.Serializable;
 public class Customer implements Serializable {
     //Definición de atributos
     public static int counter = 1;
-    public int id;
-    public String name;
-    public String email;
-    public String phone;
+    private int id;
+    private String name;
+    private String email;
+    private String phone;
+    private LinkedList<Appointment> appointments;
    //Constructor, getters y setters
 
     /**
@@ -30,6 +32,7 @@ public class Customer implements Serializable {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        appointments = new LinkedList<>();
     }
     
     public int getId() {
@@ -62,6 +65,22 @@ public class Customer implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+    
+    public void addAppointment(Appointment appointment) {
+        appointments.add(appointment);
+    }
+    
+    public void removeAppointment(int appointmentId) {
+        for (int i = 0; i < appointments.size(); i++) {
+            if (appointments.get(i).getId() == appointmentId) {
+                appointments.remove(i);
+            }
+        }
+    }
+    
+    public boolean hasAppointments() {
+        return appointments.size() > 0;
     }
     
     @Override
