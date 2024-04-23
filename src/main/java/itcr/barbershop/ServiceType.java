@@ -4,11 +4,37 @@
  */
 package itcr.barbershop;
 
+import java.io.Serializable;
+
 /**
  *
- * @author Samantha
+ * @author Samantha, lito
  */
-public class ServiceType {
+//Class that represents a service type which contains a description and an ID number.
+public class ServiceType implements Serializable {
+    public static int counter = 1;
+    private int id;
+    private String description;
     
+    public ServiceType(String description) {
+        this.description = description;
+        this.id = counter++;
+    }
     
+    public int getId() {
+        return id;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    @Override
+    public String toString() {
+        return "[#" + id + "] " + description;
+    }
 }

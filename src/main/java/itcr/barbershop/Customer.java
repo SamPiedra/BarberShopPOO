@@ -4,11 +4,13 @@
  */
 package itcr.barbershop;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Samantha
  */
-public class Customer {
+public class Customer implements Serializable {
     //Definición de atributos
     public static int counter = 1;
     public int id;
