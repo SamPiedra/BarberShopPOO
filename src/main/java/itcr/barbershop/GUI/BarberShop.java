@@ -2,7 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package itcr.barbershop;
+package itcr.barbershop.GUI;
+
+import itcr.barbershop.logic.Customer;
 
 /**
  *
