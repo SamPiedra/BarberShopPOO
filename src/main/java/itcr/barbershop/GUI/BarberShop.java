@@ -13,7 +13,7 @@ import itcr.barbershop.logic.Customer;
 public class BarberShop {
 
     public static void main(String[] args) {
-        System.out.println("Barber Shop");
+        System.out.println("BarberShop");
       
 }
 }
