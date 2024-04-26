@@ -70,7 +70,7 @@ public class AppointmentManager implements Serializable {
         return false;
     }
     
-    private boolean doesDateClashWithAppointment(LocalDate date, LocalTime time) {
+/*    private boolean doesDateClashWithAppointment(LocalDate date, LocalTime time) {
         for (Appointment a : appointments) {
             if (a.getDate().equals(date)) {
                 if (a.getTime().equals(time)) return true;
@@ -90,7 +90,7 @@ public class AppointmentManager implements Serializable {
         }
         return true;
     }
-    
+     */
     private boolean isServiceTypeInUse(int serviceTypeId) {
         for (Appointment a : appointments) {
             if (a.getServiceType().getId() == serviceTypeId) {
@@ -183,7 +183,7 @@ public class AppointmentManager implements Serializable {
         }
         return result;
     }
-    
+/*    
     public int createAppointment(LocalDate date, LocalTime time, int customerId, int serviceTypeId) throws Exception {
         Customer c = getCustomer(customerId);
         ServiceType s = getServiceType(serviceTypeId);
@@ -210,7 +210,7 @@ public class AppointmentManager implements Serializable {
         }
         a.setDate(date); a.setTime(time); a.setServiceType(s);
     }
-    
+   */  
     public void removeAppointment(int appointmentId) throws Exception {
         for (int i = 0; i < appointments.size(); i++) {
             Appointment a = appointments.get(i);
@@ -245,7 +245,7 @@ public class AppointmentManager implements Serializable {
         Appointment a = getAppointment(appointmentId);
         a.disconfirm();
     }
-    
+   /* 
     public ArrayList<String> getAppointmentsFromDateList(LocalDate startDate) {
         ArrayList<String> result = new ArrayList<>();
         for (Appointment a : appointments) {
@@ -256,7 +256,7 @@ public class AppointmentManager implements Serializable {
         }
         return result;
     }
-    
+   */  
     public ArrayList<String> getUnconfirmedAppointmentsList(LocalDate startDate) {
         ArrayList<String> result = new ArrayList<>();
         for (Appointment a : appointments) {
@@ -332,7 +332,7 @@ public class AppointmentManager implements Serializable {
             }
         }
     }
-    
+    /*
     public void setScheduleOfDay(DayOfWeek day, LocalTime openingTime, LocalTime closingTime) {
         schedule.put(day, new DailySchedule(openingTime, closingTime));
     }
@@ -345,22 +345,21 @@ public class AppointmentManager implements Serializable {
         }
         return result;
     }
-    
+     */
     public static AppointmentManager LoadData() throws ClassNotFoundException, FileNotFoundException, IOException {
-        FileInputStream file = new FileInputStream("barbershopmanager.bin");
-        ObjectInputStream stream = new ObjectInputStream(file);
-        AppointmentManager object = (AppointmentManager)stream.readObject();
-        stream.close();
-        file.close();
+        AppointmentManager object;
+        try (FileInputStream file = new FileInputStream("barbershopmanager.bin")) {
+            ObjectInputStream stream = new ObjectInputStream(file);
+            object = (AppointmentManager)stream.readObject();
+            stream.close();
+        }
         object.reassignCounters();
         return object;
     }
     
     public static void SaveData(AppointmentManager object) throws FileNotFoundException, IOException  {
-        FileOutputStream file = new FileOutputStream("barbershopmanager.bin");
-        ObjectOutputStream stream = new ObjectOutputStream(file);
-        stream.writeObject(object);
-        stream.close();
-        file.close();
+        try (FileOutputStream file = new FileOutputStream("barbershopmanager.bin"); ObjectOutputStream stream = new ObjectOutputStream(file)) {
+            stream.writeObject(object);
+        }
     }
 }
