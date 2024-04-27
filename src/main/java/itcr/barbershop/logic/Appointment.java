@@ -4,6 +4,8 @@
  */
 package itcr.barbershop.logic;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Samantha
@@ -11,13 +13,13 @@ package itcr.barbershop.logic;
 public class Appointment {
     public static int counter = 1;
     private final int id;
-    private int date;
+    private LocalDate date;
     private int time;
     private ServiceType serviceType;
     private Customer customer;
     private boolean confirmed;
 
-    public Appointment(int date, int time, ServiceType serviceType, Customer customer) {
+    public Appointment(LocalDate date, int time, ServiceType serviceType, Customer customer) {
         this.id = counter++;
         this.date = date;
         this.time = time;
@@ -30,11 +32,11 @@ public class Appointment {
         return id;
     }
 
-    public int getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(int date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -76,6 +78,8 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appointment ID: " + id + ", Date: " + date + ", Time: " + time + ", Confirmed: " + confirmed;
+        String confirmedString = confirmed? "confirmed" : "not confirmed";
+        String timeString = String.format("%02d:00", time);
+        return "Appointment ID: " + id + ", date: " + date.toString() + ", " + timeString + ", " + confirmedString;
     }
 }

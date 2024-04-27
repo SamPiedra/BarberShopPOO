@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
@@ -70,27 +71,23 @@ public class AppointmentManager implements Serializable {
         return false;
     }
     
-/*    private boolean doesDateClashWithAppointment(LocalDate date, LocalTime time) {
+        private boolean doesDateClashWithAppointment(LocalDate date, int time) {
         for (Appointment a : appointments) {
             if (a.getDate().equals(date)) {
-                if (a.getTime().equals(time)) return true;
+                if (a.getTime() == time) return true;
             }
         }
         return false;
     }
     
-    private boolean isDateWithinSchedule(LocalDate date, LocalTime time) {
+    private boolean isDateWithinSchedule(LocalDate date, int time) throws Exception {
         DayOfWeek d = date.getDayOfWeek();
         DailySchedule scheduleOfDay = schedule.get(d);
-        if ( time.isBefore(scheduleOfDay.getOpeningTime()) ) {
-            return false;
-        }
-        if ( time.isAfter(scheduleOfDay.getClosingTime()) ) {
-            return false;
-        }
-        return true;
+        boolean isEarly = time < scheduleOfDay.getOpeningTime();
+        boolean isLate = time >= scheduleOfDay.getClosingTime();
+        return !(isEarly || isLate);
     }
-     */
+    
     private boolean isServiceTypeInUse(int serviceTypeId) {
         for (Appointment a : appointments) {
             if (a.getServiceType().getId() == serviceTypeId) {
@@ -134,6 +131,9 @@ public class AppointmentManager implements Serializable {
         appointments = new LinkedList<>();
         serviceTypes = new LinkedList<>();
         schedule = new TreeMap<>();
+        for (DayOfWeek d : EnumSet.allOf(DayOfWeek.class)) {
+            schedule.put(d, new DailySchedule(true));
+        }
     }
     
     public static AppointmentManager getInstance() {
@@ -183,8 +183,8 @@ public class AppointmentManager implements Serializable {
         }
         return result;
     }
-/*    
-    public int createAppointment(LocalDate date, LocalTime time, int customerId, int serviceTypeId) throws Exception {
+
+    public int createAppointment(LocalDate date, int time, int customerId, int serviceTypeId) throws Exception {
         Customer c = getCustomer(customerId);
         ServiceType s = getServiceType(serviceTypeId);
         if (!isDateWithinSchedule(date, time)) {
@@ -199,7 +199,7 @@ public class AppointmentManager implements Serializable {
         return a.getId();
     }
     
-    public void editAppointment(int appointmentId, LocalDate date, LocalTime time, int serviceTypeId) throws Exception {
+    public void editAppointment(int appointmentId, LocalDate date, int time, int serviceTypeId) throws Exception {
         Appointment a = getAppointment(appointmentId);
         ServiceType s = getServiceType(serviceTypeId);
         if (!isDateWithinSchedule(date, time)) {
@@ -210,7 +210,7 @@ public class AppointmentManager implements Serializable {
         }
         a.setDate(date); a.setTime(time); a.setServiceType(s);
     }
-   */  
+
     public void removeAppointment(int appointmentId) throws Exception {
         for (int i = 0; i < appointments.size(); i++) {
             Appointment a = appointments.get(i);
@@ -245,7 +245,7 @@ public class AppointmentManager implements Serializable {
         Appointment a = getAppointment(appointmentId);
         a.disconfirm();
     }
-   /* 
+
     public ArrayList<String> getAppointmentsFromDateList(LocalDate startDate) {
         ArrayList<String> result = new ArrayList<>();
         for (Appointment a : appointments) {
@@ -256,7 +256,7 @@ public class AppointmentManager implements Serializable {
         }
         return result;
     }
-   */  
+   
     public ArrayList<String> getUnconfirmedAppointmentsList(LocalDate startDate) {
         ArrayList<String> result = new ArrayList<>();
         for (Appointment a : appointments) {
@@ -332,8 +332,8 @@ public class AppointmentManager implements Serializable {
             }
         }
     }
-    /*
-    public void setScheduleOfDay(DayOfWeek day, LocalTime openingTime, LocalTime closingTime) {
+
+    public void setScheduleOfDay(DayOfWeek day, int openingTime, int closingTime) {
         schedule.put(day, new DailySchedule(openingTime, closingTime));
     }
     
@@ -345,7 +345,7 @@ public class AppointmentManager implements Serializable {
         }
         return result;
     }
-     */
+
     public static AppointmentManager LoadData() throws ClassNotFoundException, FileNotFoundException, IOException {
         AppointmentManager object;
         try (FileInputStream file = new FileInputStream("barbershopmanager.bin")) {
