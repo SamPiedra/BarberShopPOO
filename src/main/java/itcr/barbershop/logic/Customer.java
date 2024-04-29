@@ -6,6 +6,7 @@ package itcr.barbershop.logic;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -19,6 +20,29 @@ public class Customer implements Serializable {
     private String email;
     private String phone;
     private LinkedList<Appointment> appointments;
+    
+    private void validateEmail(String email) throws Exception {
+        if (email.isEmpty()) {
+            throw new Exception("The email cannot be empty.");
+        }
+        String regexString = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(regexString);
+        if (!pattern.matcher(email).matches()) {
+            throw new Exception("Invalid email address.");
+        }
+    }
+    
+    private void validatePhone(String phone) throws Exception {
+        if (phone.isEmpty()) {
+            return;
+        }
+        String regexString = "[0-9]+";
+        Pattern pattern = Pattern.compile(regexString);
+        if (!pattern.matcher(phone).matches()) {
+            throw new Exception("Invalid phone number.");
+        }
+    }
+    
    //Constructor, getters y setters
 
     /**
@@ -27,12 +51,14 @@ public class Customer implements Serializable {
      * @param email
      * @param phone
      */
-    public Customer(String name, String email, String phone) {
-        this.id = counter++;
+    public Customer(String name, String email, String phone) throws Exception {
         this.name = name;
+        validateEmail(email);
         this.email = email;
+        validatePhone(phone);
         this.phone = phone;
         appointments = new LinkedList<>();
+        this.id = counter++;
     }
     
     public int getId() {
@@ -55,7 +81,8 @@ public class Customer implements Serializable {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws Exception {
+        validateEmail(email);
         this.email = email;
     }
 
@@ -63,7 +90,8 @@ public class Customer implements Serializable {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(String phone) throws Exception {
+        validatePhone(phone);
         this.phone = phone;
     }
     
@@ -80,7 +108,7 @@ public class Customer implements Serializable {
     }
     
     public boolean hasAppointments() {
-        return appointments.size() > 0;
+        return !appointments.isEmpty();
     }
     
     @Override

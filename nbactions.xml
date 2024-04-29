@@ -15,7 +15,7 @@
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>itcr.barbershop.GUI.TestMain</exec.mainClass>
                 <exec.executable>java</exec.executable>
-                <exec.workingdir>/Users/lito/Library/CloudStorage/OneDrive-EstudiantesITCR/Semestre III/POO/Proyecto0/BarberShopPOO</exec.workingdir>
+                <exec.workingdir></exec.workingdir>
             </properties>
         </action>
         <action>
@@ -34,7 +34,7 @@
                 <exec.mainClass>itcr.barbershop.GUI.TestMain</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
-                <exec.workingdir>/Users/lito/Library/CloudStorage/OneDrive-EstudiantesITCR/Semestre III/POO/Proyecto0/BarberShopPOO</exec.workingdir>
+                <exec.workingdir></exec.workingdir>
             </properties>
         </action>
         <action>
@@ -52,7 +52,7 @@
                 <exec.mainClass>itcr.barbershop.GUI.TestMain</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <exec.appArgs></exec.appArgs>
-                <exec.workingdir>/Users/lito/Library/CloudStorage/OneDrive-EstudiantesITCR/Semestre III/POO/Proyecto0/BarberShopPOO</exec.workingdir>
+                <exec.workingdir></exec.workingdir>
             </properties>
         </action>
     </actions>

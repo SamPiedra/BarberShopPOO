@@ -18,19 +18,12 @@ public class TestMain {
         try {
             //test customers
             AppointmentManager manager = AppointmentManager.getInstance();
-            manager.addCustomer("a", "a@gmail.com", "123");
-            manager.addCustomer("b", "b@gmail.com", "1234");
-            manager.addCustomer("c", "c@gmail.com", "1235");
-            manager.addCustomer("d", "d@gmail.com", "1236");
-            manager.addCustomer("e", "e@gmail.com", "1237");
-            manager.addCustomer("f", "f@gmail.com", "1238");
+            manager.addCustomer("Test", "test@gmail.com", "12345135");
             ArrayList<String> array;
             array = manager.getCustomersList();
             for (String s : array) {
                 System.out.println(s);
             }
-            manager.updateCustomerInfo(1, "LOL", "none", "4");
-            manager.removeCustomer(4);
             array = manager.getCustomersList();
             for (String s : array) {
                 System.out.println(s);
@@ -61,21 +54,15 @@ public class TestMain {
             }
             
             //test appointments
-            manager.createAppointment(LocalDate.of(2004, 2, 2), 10, 1, 1);
-            manager.createAppointment(LocalDate.of(2024, 2, 2), 14, 3, 3);
+            manager.createAppointment(LocalDate.of(1991, 1, 10), 10, 1, 4);
             array = manager.getAllAppointmentsList();
             for (String s : array) {
                 System.out.println(s);
             }
             
             //test waiting list
-            manager.addToWaitingList(3);
-            manager.addToWaitingList(5);
-            manager.addToWaitingList(6);
-            array = manager.getWaitingList();
-            for (String s : array) {
-                System.out.println(s);
-            }
+            
+            //manager.sendEmailNotification(1);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }       

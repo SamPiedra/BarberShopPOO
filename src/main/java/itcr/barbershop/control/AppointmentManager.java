@@ -17,14 +17,24 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
@@ -32,6 +42,13 @@ import java.util.TreeMap;
  */
 //Singleton, controller class for the main program.
 public class AppointmentManager implements Serializable {
+    //dependencies for email delivery
+    private static final String senderEmail = "poo.tames.aguilar.herrera.itcr@gmail.com";
+    private static final String senderPassword = "elqcpvggxqzinmyg";
+    private Properties properties;
+    private Session session;
+    private MimeMessage mimeMessage;
+    
     private static AppointmentManager instance;
     private LinkedList<Customer> customers;
     private LinkedList<Customer> waitingList;
@@ -58,6 +75,7 @@ public class AppointmentManager implements Serializable {
     }
     
     private boolean customerExists(String email) {
+        //Search by email
         for (Customer c : customers) {
             if (c.getEmail().equals(email)) return true;
         }
@@ -65,6 +83,7 @@ public class AppointmentManager implements Serializable {
     }
     
     private boolean customerExists(int customerId) {
+        //Search by ID
         for (Customer c : customers) {
             if (c.getId() == customerId) return true;
         }
@@ -77,7 +96,7 @@ public class AppointmentManager implements Serializable {
                 if (a.getTime() == time) return true;
             }
         }
-        return false;
+        return false;   
     }
     
     private boolean isDateWithinSchedule(LocalDate date, int time) throws Exception {
@@ -125,7 +144,46 @@ public class AppointmentManager implements Serializable {
         throw new Exception("Service type not found.");
     }
     
+    private void createEmail(String email, String subject, String content) {
+        try {
+            properties.put("mail.smtp.host", "smtp.gmail.com");
+            properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+            properties.setProperty("mail.smtp.starttls.enable", "true");
+            properties.setProperty("mail.smtp.port", "587");
+            properties.setProperty("mail.smtp.user", senderEmail);
+            properties.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
+            properties.setProperty("mail.smtp.auth", "true");
+            session = Session.getDefaultInstance(properties);
+            mimeMessage = new MimeMessage(session);
+            mimeMessage.setFrom(new InternetAddress(senderEmail));
+            mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            mimeMessage.setSubject(subject);
+            mimeMessage.setText(content, "ISO-8859-1", "html");
+        } catch (AddressException ex) {
+            Logger.getLogger(AppointmentManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(AppointmentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private boolean sendEmail() {
+        try {
+            Transport transport = session.getTransport("smtp");
+            transport.connect(senderEmail, senderPassword);
+            transport.sendMessage(mimeMessage, mimeMessage.getRecipients(Message.RecipientType.TO));
+            transport.close();
+            return true;
+        } catch (NoSuchProviderException ex) {
+            Logger.getLogger(AppointmentManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(AppointmentManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+    
+    //Disable instantiation of the class outside itself
     private AppointmentManager() {
+        properties = new Properties();
         customers = new LinkedList<>();
         waitingList = new LinkedList<>();
         appointments = new LinkedList<>();
@@ -136,11 +194,13 @@ public class AppointmentManager implements Serializable {
         }
     }
     
+    //Ensure there's only one instance of the class
     public static AppointmentManager getInstance() {
         if (instance == null) instance = new AppointmentManager();
         return instance;
     }
     
+    //Restriction: no two customers can share the same email address
     public int addCustomer(String name, String email, String phone) throws Exception {
         if (customerExists(email)) {
             throw new Exception("Customer is already registered.");
@@ -155,6 +215,7 @@ public class AppointmentManager implements Serializable {
         c.setName(name); c.setEmail(email); c.setPhone(phone);
     }
     
+    //Restriction: the customer must not have appointments nor be in the waiting list
     public void removeCustomer(int customerId) throws Exception {
         for (int i = 0; i < customers.size(); i++) {
             Customer c = customers.get(i);
@@ -184,6 +245,7 @@ public class AppointmentManager implements Serializable {
         return result;
     }
 
+    
     public int createAppointment(LocalDate date, int time, int customerId, int serviceTypeId) throws Exception {
         Customer c = getCustomer(customerId);
         ServiceType s = getServiceType(serviceTypeId);
@@ -269,7 +331,26 @@ public class AppointmentManager implements Serializable {
     
     public void sendEmailNotification(int appointmentId) throws Exception {
         Appointment a = getAppointment(appointmentId);
-        //send email
+        if (a.isConfirmed()) {
+            throw new Exception("The appointment is already confirmed.");
+        }
+        String email = a.getCustomer().getEmail();
+        String date = a.getDate().toString();
+        String name = a.getCustomer().getName();
+        String service = a.getServiceType().getDescription();
+        String time = String.format("%02d:00", a.getTime());
+        String body = "<p>Hello, " + name + ". This is a reminder of your upcoming appointment.";
+        body += "<br>Find the details here:";
+        body += "<br><br>Date: " + date;
+        body += "<br>Time: " + time;
+        body += "<br>Service description: " + service;
+        body += "<br><br>Please reply at your earliest convenience to confirm your appointment, otherwise your spot might be taken by someone else.</p>";
+        System.out.println(email);
+        createEmail(email, "Appointment Notification", body);
+        boolean emailSentSuccessfully = sendEmail();
+        if (!emailSentSuccessfully) {
+            throw new Exception("An error ocurred trying to send the email. Please verify the email address of the recipient.");
+        }
     }
     
     public int createServiceType(String description) {
