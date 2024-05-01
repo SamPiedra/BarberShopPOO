@@ -40,7 +40,7 @@
         </dependency>
         <dependency>
             <groupId>group.itcr</groupId>
-            <artifactId>mail.itcr</artifactId>
+            <artifactId>mail</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

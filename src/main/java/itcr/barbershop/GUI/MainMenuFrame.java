@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package itcr.barbershop.GUI;
-
+import java.awt.Dialog;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 /**
  *
  * @author lito
@@ -15,6 +17,8 @@ public class MainMenuFrame extends javax.swing.JFrame {
      */
     public MainMenuFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -35,19 +39,40 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Perpetua Titling MT", 0, 18)); // NOI18N
         jLabel1.setText("Barber Shop");
 
         ServicesButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/barber-shop.png"))); // NOI18N
         ServicesButton.setText("Services");
+        ServicesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ServicesButtonActionPerformed(evt);
+            }
+        });
 
         CustomersButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/user.png"))); // NOI18N
         CustomersButton.setText("Customers");
+        CustomersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CustomersButtonActionPerformed(evt);
+            }
+        });
 
         AppointmentsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/calendar-star.png"))); // NOI18N
         AppointmentsButton.setText("Appointments");
+        AppointmentsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AppointmentsButtonActionPerformed(evt);
+            }
+        });
 
         ServicesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/queue-alt.png"))); // NOI18N
         ServicesButton1.setText("Waiting List");
+        ServicesButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ServicesButton1ActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 0, 51));
 
@@ -103,6 +128,31 @@ public class MainMenuFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CustomersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomersButtonActionPerformed
+    CustomerFrame customerFrame = new CustomerFrame();     // TODO add your handling code here:
+    customerFrame.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_CustomersButtonActionPerformed
+
+    private void AppointmentsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AppointmentsButtonActionPerformed
+    AppointmentFrame appointmentFrame = new AppointmentFrame();     // TODO add your handling code here:
+    appointmentFrame.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_AppointmentsButtonActionPerformed
+
+    private void ServicesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServicesButton1ActionPerformed
+    WaitListFrame waitListFrame = new WaitListFrame();        // TODO add your handling code here:
+    waitListFrame.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_ServicesButton1ActionPerformed
+
+    private void ServicesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServicesButtonActionPerformed
+    ServicesFrame servicesFrame = new ServicesFrame();        // TODO add your handling code here:
+    servicesFrame.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_ServicesButtonActionPerformed
+
 
     /**
      * @param args the command line arguments
