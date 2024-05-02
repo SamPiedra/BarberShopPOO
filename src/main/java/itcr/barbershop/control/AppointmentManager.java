@@ -50,13 +50,13 @@ public class AppointmentManager implements Serializable {
     private MimeMessage mimeMessage;
     
     private static AppointmentManager instance;
-    private LinkedList<Customer> customers;
+    public LinkedList<Customer> customers;
     private LinkedList<Customer> waitingList;
     private LinkedList<Appointment> appointments;
     private LinkedList<ServiceType> serviceTypes;
     private TreeMap<DayOfWeek, DailySchedule> schedule;
     
-    private void reassignCounters() {
+    public void reassignCounters() {
         int customersMaxCounter = 0;
         int appointmentsMaxCounter = 0;
         int serviceTypesMaxCounter = 0;
@@ -123,7 +123,7 @@ public class AppointmentManager implements Serializable {
         return false;
     }
     
-    private Customer getCustomer(int customerId) throws Exception {
+    public Customer getCustomer(int customerId) throws Exception {
         for (Customer c : customers) {
             if (c.getId() == customerId) return c;
         }
@@ -182,7 +182,7 @@ public class AppointmentManager implements Serializable {
     }
     
     //Disable instantiation of the class outside itself
-    private AppointmentManager() {
+    public AppointmentManager() {
         properties = new Properties();
         customers = new LinkedList<>();
         waitingList = new LinkedList<>();
@@ -215,6 +215,25 @@ public class AppointmentManager implements Serializable {
         c.setName(name); c.setEmail(email); c.setPhone(phone);
     }
     
+    public void updateCustomer(Customer updatedCustomer) throws Exception {
+        int customerId = updatedCustomer.getId();
+        for (int i = 0; i < customers.size(); i++) {
+            Customer c = customers.get(i);
+            if (c.getId() == customerId) {
+                customers.set(i, updatedCustomer); // Reemplazar el cliente existente con el cliente actualizado
+                return;
+            }
+        }
+        throw new Exception("Customer not found with ID: " + customerId);
+    }
+    public Customer getACustomer(int customerId) throws Exception {
+    for (Customer c : customers) {
+        if (c.getId() == customerId) {
+            return c;
+        }
+    }
+    throw new Exception("Customer not found with ID: " + customerId);
+}
     //Restriction: the customer must not have appointments nor be in the waiting list
     public void removeCustomer(int customerId) throws Exception {
         for (int i = 0; i < customers.size(); i++) {

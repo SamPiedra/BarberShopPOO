@@ -67,7 +67,7 @@ public class MainMenuFrame extends javax.swing.JFrame {
         });
 
         ServicesButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/queue-alt.png"))); // NOI18N
-        ServicesButton1.setText("Waiting List");
+        ServicesButton1.setText("Wait List");
         ServicesButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ServicesButton1ActionPerformed(evt);

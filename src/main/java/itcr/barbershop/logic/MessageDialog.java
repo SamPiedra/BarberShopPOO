@@ -8,6 +8,8 @@ package itcr.barbershop.logic;
  *
  * @author Samantha
  */
+
+//Idea de crear una clase para messageDialog obtenida de https://stackoverflow.com/questions/12214874/jdialog-modality-and-class-extending
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;

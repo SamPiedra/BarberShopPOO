@@ -77,10 +77,20 @@ public class CustomerFrame extends javax.swing.JFrame {
         DeleteCustomerButton.setBackground(new java.awt.Color(204, 0, 0));
         DeleteCustomerButton.setForeground(new java.awt.Color(255, 255, 255));
         DeleteCustomerButton.setText("Delete Customer");
+        DeleteCustomerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteCustomerButtonActionPerformed(evt);
+            }
+        });
 
         CustomerInfoButton.setBackground(new java.awt.Color(204, 0, 0));
         CustomerInfoButton.setForeground(new java.awt.Color(255, 255, 255));
         CustomerInfoButton.setText("Customer Info");
+        CustomerInfoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CustomerInfoButtonActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(229, 0, 0));
 
@@ -158,7 +168,8 @@ public class CustomerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_CreateCustomerButtonActionPerformed
 
     private void EditCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditCustomerButtonActionPerformed
-        // TODO add your handling code here:
+    EditCustomerSelectFrame editCustomerSelectFrame = new EditCustomerSelectFrame();        // TODO add your handling code here:
+    editCustomerSelectFrame.setVisible(true);
     }//GEN-LAST:event_EditCustomerButtonActionPerformed
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
@@ -166,6 +177,16 @@ public class CustomerFrame extends javax.swing.JFrame {
     mainMenuFrame.setVisible(true);
     this.dispose();
     }//GEN-LAST:event_BackButtonActionPerformed
+
+    private void DeleteCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteCustomerButtonActionPerformed
+    DeleteCustomerFrame deleteCustomerFrame = new DeleteCustomerFrame();        // TODO add your handling code here:
+    deleteCustomerFrame.setVisible(true);
+    }//GEN-LAST:event_DeleteCustomerButtonActionPerformed
+
+    private void CustomerInfoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CustomerInfoButtonActionPerformed
+    CustomerInfoFrame customerInfoFrame = new CustomerInfoFrame();        // TODO add your handling code here:
+    customerInfoFrame.setVisible(true);
+    }//GEN-LAST:event_CustomerInfoButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -11,8 +11,7 @@ package itcr.barbershop.GUI;
 
 import itcr.barbershop.control.AppointmentManager;
 import itcr.barbershop.logic.MessageDialog;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
 
 public class CreateNewCustomerFrame extends javax.swing.JFrame {
 
@@ -21,6 +20,9 @@ public class CreateNewCustomerFrame extends javax.swing.JFrame {
      */
     public CreateNewCustomerFrame() {
         initComponents();
+        
+        //Información sobre addActionListener obtenida de Rafael Riquelme video de Youtube "Uso de JTextField + JButton + JFrame + ActionListener en Java, con NetBeans"
+        //https://youtu.be/VMx6B3Djkvw 
         createCustomerButton.addActionListener(this::createCustomerButtonActionPerformed);  
     }
 
@@ -142,20 +144,36 @@ public class CreateNewCustomerFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    private void createCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                     
-        String name = nameInput.getText();
-        String email = emailInput.getText();
-        String phone = phoneNumberInput.getText();
+private void createCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                     
+    String name = nameInput.getText();
+    String email = emailInput.getText();
+    String phone = phoneNumberInput.getText();
 
-        try {
-            int customerId = AppointmentManager.getInstance().addCustomer(name, email, phone);
-            MessageDialog messageDialog = new MessageDialog("Customer created successfully. ID: " + customerId);
-            messageDialog.setVisible(true);
-        } catch (Exception ex) {
-            MessageDialog messageDialog = new MessageDialog("Error: " + ex.getMessage());
-            messageDialog.setVisible(true);
+    try {
+        int customerId = AppointmentManager.getInstance().addCustomer(name, email, phone);
+        MessageDialog messageDialog = new MessageDialog("Customer created successfully. ID: " + customerId);
+        messageDialog.setVisible(true);
+        printCustomerList();
+    } catch (Exception ex) {
+        MessageDialog messageDialog = new MessageDialog("Error: " + ex.getMessage());
+        messageDialog.setVisible(true);
+    }
+}   
+
+private void printCustomerList() {
+    try {
+        // Get the complete list of customers as strings
+        ArrayList<String> customersList = AppointmentManager.getInstance().getCustomersList();
+        
+        // Print each customer to the console
+        System.out.println("Complete Customer List:");
+        for (String customer : customersList) {
+            System.out.println(customer);
         }
-    }          
+    } catch (Exception ex) {
+        System.out.println("Error printing customer list: " + ex.getMessage());
+    }
+}
     /**
      * @param args the command line arguments
      */
