@@ -144,6 +144,22 @@ public class AppointmentManager implements Serializable {
         throw new Exception("Service type not found.");
     }
     
+    public String getServiceTypes() {
+        StringBuilder result = new StringBuilder();
+        for (ServiceType serviceType : serviceTypes) {
+            result.append("ID: ").append(serviceType.getId()).append(", Description: ").append(serviceType.getDescription()).append("\n");
+        }
+        return result.toString();
+    }
+    
+        public String getServiceInfo(int serviceId) throws Exception {
+        for (ServiceType serviceType : serviceTypes) {
+            if (serviceType.getId() == serviceId) {
+                return "Service ID: " + serviceType.getId() + "\nDescription: " + serviceType.getDescription();
+            }
+        }
+        throw new Exception("Service type not found.");
+    }
     private void createEmail(String email, String subject, String content) {
         try {
             properties.put("mail.smtp.host", "smtp.gmail.com");

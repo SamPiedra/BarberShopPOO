@@ -4,6 +4,9 @@
  */
 package itcr.barbershop.GUI;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author Samantha
@@ -68,10 +71,25 @@ public class ServicesFrame extends javax.swing.JFrame {
         });
 
         EditServiceButton.setText("Edit Service");
+        EditServiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditServiceButtonActionPerformed(evt);
+            }
+        });
 
         DeleteServiceButton.setText("Delete Service");
+        DeleteServiceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeleteServiceButtonActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Service Info");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(204, 0, 0));
         jButton2.setForeground(new java.awt.Color(204, 0, 0));
@@ -123,7 +141,8 @@ public class ServicesFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CreateNewServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateNewServiceButtonActionPerformed
-        // TODO add your handling code here:
+    CreateServiceList createServiceList = new CreateServiceList();        // TODO add your handling code here:
+    createServiceList.setVisible(true);
     }//GEN-LAST:event_CreateNewServiceButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -131,6 +150,22 @@ public class ServicesFrame extends javax.swing.JFrame {
     mainMenuFrame.setVisible(true);        // TODO add your handling code here:
     this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void DeleteServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteServiceButtonActionPerformed
+    DeleteServiceFrame deleteServiceFrame = new DeleteServiceFrame();        // TODO add your handling code here:
+    deleteServiceFrame.setVisible(true);
+    }//GEN-LAST:event_DeleteServiceButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    ServiceInfoFrame serviceInfoFrame = new ServiceInfoFrame();    // TODO add your handling code here:
+    serviceInfoFrame.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void EditServiceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditServiceButtonActionPerformed
+    EditServiceFrame editServiceFrame = new EditServiceFrame();       // TODO add your handling code here:
+    editServiceFrame.setVisible(true);
+        
+    }//GEN-LAST:event_EditServiceButtonActionPerformed
 
     /**
      * @param args the command line arguments
