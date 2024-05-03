@@ -29,7 +29,7 @@ public class EditServiceFrame extends javax.swing.JFrame {
         serviceList = new javax.swing.JList<>(listModel);
         initComponents();
         loadServices();
-        jScrollPane1.setViewportView(serviceList); // add servicelsit to jScrollPane2
+        jScrollPane1.setViewportView(serviceList); // add serviceLsit to jScrollPane1
     }
 
     private void loadServices() {
@@ -178,8 +178,6 @@ public class EditServiceFrame extends javax.swing.JFrame {
         int selectedIndex = serviceList.getSelectedIndex();
         if (selectedIndex != -1) {
             String selectedService = listModel.getElementAt(selectedIndex);
-            // Aquí podrías abrir una nueva ventana para editar el servicio seleccionado,
-            // pero como no está implementada esa parte, simplemente mostramos un mensaje.
             JOptionPane.showMessageDialog(this, "Selected Service: " + selectedService);
         } else {
             JOptionPane.showMessageDialog(this, "Select a service.");
