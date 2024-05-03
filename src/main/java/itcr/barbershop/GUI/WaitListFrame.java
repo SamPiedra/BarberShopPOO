@@ -38,8 +38,9 @@ public class WaitListFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(238, 0, 0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel1.setFont(new java.awt.Font("Perpetua Titling MT", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setText("WAITLIST");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -47,25 +48,49 @@ public class WaitListFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(155, 155, 155)
+                .addGap(136, 136, 136)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26))
+                .addGap(25, 25, 25))
         );
 
+        ShowWaitlistButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         ShowWaitlistButton.setText("Show Waitlist");
+        ShowWaitlistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShowWaitlistButtonActionPerformed(evt);
+            }
+        });
 
+        AddtoWaitlistButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         AddtoWaitlistButton.setText("Add to Waitlist");
+        AddtoWaitlistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddtoWaitlistButtonActionPerformed(evt);
+            }
+        });
 
+        DeletefromWaitlistButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         DeletefromWaitlistButton.setText("Delete from Waitlist");
+        DeletefromWaitlistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeletefromWaitlistButtonActionPerformed(evt);
+            }
+        });
 
+        SetScheduleButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         SetScheduleButton.setText("Set Schedule");
+        SetScheduleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SetScheduleButtonActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(204, 0, 0));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/graphics/back-button.png"))); // NOI18N
@@ -81,15 +106,15 @@ public class WaitListFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(DeletefromWaitlistButton)
-                    .addComponent(ShowWaitlistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(SetScheduleButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(AddtoWaitlistButton, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE))
-                .addGap(44, 44, 44))
+                    .addComponent(DeletefromWaitlistButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ShowWaitlistButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(SetScheduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddtoWaitlistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
@@ -103,7 +128,7 @@ public class WaitListFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ShowWaitlistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(AddtoWaitlistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DeletefromWaitlistButton, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SetScheduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -120,6 +145,34 @@ public class WaitListFrame extends javax.swing.JFrame {
     mainMenuFrame.setVisible(true);        // TODO add your handling code here:
     this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ShowWaitlistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShowWaitlistButtonActionPerformed
+    // Crear e instanciar un nuevo objeto ShowWaitlistFrame
+    ShowWaitlistFrame showWaitlistFrame = new ShowWaitlistFrame();
+    // Hacer visible el nuevo frame
+    showWaitlistFrame.setVisible(true);
+    }//GEN-LAST:event_ShowWaitlistButtonActionPerformed
+
+    private void DeletefromWaitlistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletefromWaitlistButtonActionPerformed
+    // Crear e instanciar un nuevo objeto DeletefromWaitlistFrame
+    DeletefromWaitlistFrame deletefromWaitlistFrame = new DeletefromWaitlistFrame();
+    // Hacer visible el nuevo frame
+    deletefromWaitlistFrame.setVisible(true);
+    }//GEN-LAST:event_DeletefromWaitlistButtonActionPerformed
+
+    private void SetScheduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SetScheduleButtonActionPerformed
+    // Crear e instanciar un nuevo objeto SetScheduleFrame
+    SetScheduleFrame setScheduleFrame = new SetScheduleFrame();
+    // Hacer visible el nuevo frame
+    setScheduleFrame.setVisible(true);
+    }//GEN-LAST:event_SetScheduleButtonActionPerformed
+
+    private void AddtoWaitlistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddtoWaitlistButtonActionPerformed
+    // Crear e instanciar un nuevo objeto AddtoWaitlistFrame
+    AddToWaitlistFrame addToWaitlistFrame = new AddToWaitlistFrame();
+    // Hacer visible el nuevo frame
+    addToWaitlistFrame.setVisible(true);
+    }//GEN-LAST:event_AddtoWaitlistButtonActionPerformed
 
     /**
      * @param args the command line arguments

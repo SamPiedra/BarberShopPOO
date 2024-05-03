@@ -280,6 +280,14 @@ public class AppointmentManager implements Serializable {
         return result;
     }
 
+    public Customer getCustomerById(int customerId) throws Exception {
+    for (Customer c : customers) {
+        if (c.getId() == customerId) {
+            return c;
+        }
+    }
+    throw new Exception("Customer not found with ID: " + customerId);
+}
     
     public int createAppointment(LocalDate date, int time, int customerId, int serviceTypeId) throws Exception {
         Customer c = getCustomer(customerId);
@@ -452,6 +460,12 @@ public class AppointmentManager implements Serializable {
     public void setScheduleOfDay(DayOfWeek day, int openingTime, int closingTime) {
         schedule.put(day, new DailySchedule(openingTime, closingTime));
     }
+    public void addToWaitlist(Customer customer) throws Exception {
+    if (waitingList.contains(customer)) {
+        throw new Exception("The customer is already in the waiting list.");
+    }
+    waitingList.add(customer);
+}
     
     public ArrayList<String> getScheduleList() {
         ArrayList<String> result = new ArrayList<>();

@@ -142,8 +142,8 @@ public class MainMenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_AppointmentsButtonActionPerformed
 
     private void ServicesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ServicesButton1ActionPerformed
-    WaitListFrame waitListFrame = new WaitListFrame();        // TODO add your handling code here:
-    waitListFrame.setVisible(true);
+     WaitListFrame waitListFrame = new WaitListFrame();
+     waitListFrame.setVisible(true);
     this.dispose();
     }//GEN-LAST:event_ServicesButton1ActionPerformed
 
